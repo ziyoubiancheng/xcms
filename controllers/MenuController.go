@@ -32,9 +32,6 @@ func (c *MenuController) Add() {
 	} else {
 		c.jsonResult(consts.JRCodeFailed, "", 0)
 	}
-
-	//id, _ := orm.NewOrm().Insert(models.MenuModel{Name: "hello", Parent: 1})
-	//c.jsonResult(consts.JRCodeSucc, "1", id)
 }
 
 func (c *MenuController) Delete() {

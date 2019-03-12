@@ -8,5 +8,5 @@ import (
 type JsonResult struct {
 	Code consts.JsonResultCode `json:"code"`
 	Msg  string                `json:"msg"`
-	Obj  interface{}           `json:"obj"`
+	Data interface{}           `json:"data"`
 }
