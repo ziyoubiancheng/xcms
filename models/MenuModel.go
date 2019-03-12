@@ -4,6 +4,9 @@ type MenuModel struct {
 	BaseModel
 }
 
+type MenuItem struct {
+}
+
 func (m *MenuModel) tableName() string {
 	return "xcms_menu"
 }
