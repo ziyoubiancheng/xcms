@@ -1,24 +1,18 @@
 package models
 
-import (
-	"fmt"
-)
-
 type MenuModel struct {
 	BaseModel
 }
 
-func (m *MenuModel) TableName() string {
+func (m *MenuModel) tableName() string {
 	return "xcms_menu"
 }
 
-func (m *MenuModel) List() {
-	rows, err := m.BaseModel.exec("select mid,name from xcms_menu limit 10")
-	mid := 0
-	name := " "
-	for rows.Next() {
-		rows.Scan(&mid, &name)
-		fmt.Println(mid, name)
-	}
-	fmt.Println(err)
+func (m *MenuModel) List() (map[int]map[string]string, error) {
+	rows, err := m.BaseModel.exec("select * from " + m.tableName() + " order by mtype,mid limit 1000")
+	return rows, err
+}
+
+func (m *MenuModel) Add() {
+
 }

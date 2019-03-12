@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/astaxie/beego"
@@ -18,7 +19,9 @@ type BaseController struct {
 func (c *BaseController) Prepare() {
 	//附值
 	c.controllerName, c.actionName = c.GetControllerAndAction()
+	beego.Informational(c.controllerName, c.actionName)
 	// TODO 保存用户数据
+	fmt.Println("beego:perpare")
 }
 
 // 设置模板
