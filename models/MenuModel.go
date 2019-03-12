@@ -1,21 +1,26 @@
 package models
 
+import (
+	"github.com/astaxie/beego/orm"
+)
+
 type MenuModel struct {
-	BaseModel
+	Mid    int `orm:"pk"`
+	Mtype  int8
+	Parent int
+	Seq    int
+	Name   string `orm:"size(45)"`
+	Fid    int
+	Role   int
 }
 
-type MenuItem struct {
-}
-
-func (m *MenuModel) tableName() string {
+func (m *MenuModel) TableName() string {
 	return "xcms_menu"
 }
 
-func (m *MenuModel) List() (map[int]map[string]string, error) {
-	rows, err := m.BaseModel.exec("select * from " + m.tableName() + " order by mtype,mid limit 1000")
-	return rows, err
-}
-
-func (m *MenuModel) Add() {
-
+func (m *MenuModel) List() []*MenuModel {
+	query := orm.NewOrm().QueryTable(m.TableName())
+	data := make([]*MenuModel, 0)
+	query.OrderBy("mtype", "parent", "-seq").Limit(1000).All(&data)
+	return data
 }
