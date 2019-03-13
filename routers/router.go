@@ -11,5 +11,5 @@ func init() {
 	beego.Router("/menu", &controllers.MenuController{}, "Get:Index")
 	beego.Router("/menu/add", &controllers.MenuController{}, "Post:Add")
 	beego.Router("/menu/edit", &controllers.MenuController{}, "Post:Edit")
-	beego.Router("/menu/delete", &controllers.MenuController{}, "Post:Delete")
+	beego.Router("/menu/delete", &controllers.MenuController{}, "Get:Delete")
 }

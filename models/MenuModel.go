@@ -14,6 +14,11 @@ type MenuModel struct {
 	Role   int
 }
 
+type MenuTree struct {
+	MenuModel
+	Child []MenuModel
+}
+
 func (m *MenuModel) TableName() string {
 	return "xcms_menu"
 }
@@ -22,5 +27,6 @@ func (m *MenuModel) List() []*MenuModel {
 	query := orm.NewOrm().QueryTable(m.TableName())
 	data := make([]*MenuModel, 0)
 	query.OrderBy("mtype", "parent", "-seq").Limit(1000).All(&data)
+
 	return data
 }
