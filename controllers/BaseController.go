@@ -28,7 +28,7 @@ func (c *BaseController) Prepare() {
 // 第一个参数模板，第二个参数为layout
 func (c *BaseController) setTpl(template ...string) {
 	var tplName string
-	layout := "shared/layout_page.html"
+	layout := "common/layout.html"
 	switch {
 	case len(template) == 1:
 		tplName = template[0]
