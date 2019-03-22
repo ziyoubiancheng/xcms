@@ -23,9 +23,9 @@
   </div>
   
   <div class="layui-side layui-bg-black">
-    <div class="layui-side-scroll">
+    <div class="layui-side-scroll" id="nav" lay-filter="test">
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+      <ul class="layui-nav layui-nav-tree">
         <li class="layui-nav-item layui-nav-itemed">
           <a class="" href="javascript:;">系统管理</a>
           <dl class="layui-nav-child">
@@ -38,12 +38,15 @@
       </ul>
     </div>
   </div>
-  
   <div class="layui-body">
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">{{.LayoutContent}}</div>
   </div>
-  
+{{.Menu | printf "%s"}}  
+{{range .Menu}}
+	<li class="layui-nav-item"><a href="">hahaha</a></li>
+{{end}}
+
   <div class="layui-footer">
     <!-- 底部固定区域 -->
     XCMS通用内容管理系统
@@ -52,9 +55,8 @@
 <script src="/static/layui.js"></script>
 <script>
 //JavaScript代码区域
-layui.use('element', function(){
-  var element = layui.element;
-  
+layui.use(['element','layer'], function(){
+	var element = layui.element;
 });
 </script>
 </body>

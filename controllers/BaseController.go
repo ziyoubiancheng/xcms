@@ -22,6 +22,7 @@ func (c *BaseController) Prepare() {
 	beego.Informational(c.controllerName, c.actionName)
 	// TODO 保存用户数据
 	fmt.Println("beego:perpare")
+	//c.Data["menu"] = "[{\"name\":\"hello\"},{\"name\":\"what\"}]"
 }
 
 // 设置模板
