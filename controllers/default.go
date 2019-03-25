@@ -2,7 +2,7 @@ package controllers
 
 import (
 	//	"database/sql"
-	//	"fmt"
+	"fmt"
 
 	"github.com/astaxie/beego"
 	//	_ "github.com/go-sql-driver/mysql" // import your used driver
@@ -57,6 +57,7 @@ func (c *MainController) Get() {
 			}
 		}
 	}
+	fmt.Println(menu)
 	//c.Data["menu"] = "{\"code\": 0,\"msg\": \"ok\",\"data\": {  \"1\": {    \"Mid\": 1,    \"Mtype\": 0,    \"Parent\": 0,    \"Seq\": 0,    \"Name\": \"系统菜单\",    \"Fid\": 0,    \"Role\": 0,    \"Child\": [      {        \"Mid\": 4,        \"Mtype\": 10,        \"Parent\": 1,        \"Seq\": 5,        \"Name\": \"角色管理\",        \"Fid\": 0,        \"Role\": 0      },      {        \"Mid\": 3,        \"Mtype\": 10,        \"Parent\": 1,        \"Seq\": 4,        \"Name\": \"用户管理\",        \"Fid\": 0,        \"Role\": 0      },      {        \"Mid\": 5,        \"Mtype\": 10,        \"Parent\": 1,        \"Seq\": 3,        \"Name\": \"菜单管理\",        \"Fid\": 0,        \"Role\": 0      }    ]  }}}"
 	c.Data["Menu"] = menu
 	c.Layout = "common/layout.html"

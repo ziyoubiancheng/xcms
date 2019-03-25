@@ -26,26 +26,35 @@
     <div class="layui-side-scroll" id="nav" lay-filter="test">
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
       <ul class="layui-nav layui-nav-tree">
-        <li class="layui-nav-item layui-nav-itemed">
+        <!--<li class="layui-nav-item layui-nav-itemed">
           <a class="" href="javascript:;">系统管理</a>
           <dl class="layui-nav-child">
             <dd><a href="javascript:;">角色管理</a></dd>
             <dd><a href="javascript:;">用户管理</a></dd>
             <dd><a href="">内容管理</a></dd>
           </dl>
-        </li>
-        {{ template "common/menu.html" }}
+        </li>-->
+        {{range .Menu}}
+			<li class="layui-nav-item layui-nav-itemed">
+				<a class="" href="javascript:;">{{.Name}}</a>
+				{{if .Child}}
+					<dl class="layui-nav-child">
+						{{range .Child}}
+							<dd><a href="{{.Mid}}">{{.Name}}</a></dd>
+						{{end}}
+					</dl>
+				{{end}}
+			</li>
+		{{end}}
       </ul>
     </div>
   </div>
   <div class="layui-body">
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">{{.LayoutContent}}</div>
+	{{.Menu | printf "%s"}}  
   </div>
-{{.Menu | printf "%s"}}  
-{{range .Menu}}
-	<li class="layui-nav-item"><a href="">hahaha</a></li>
-{{end}}
+
 
   <div class="layui-footer">
     <!-- 底部固定区域 -->
