@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>XCMS</title>
   <link rel="stylesheet" href="/static/css/layui.css">
+  <script src="/static/layui.js"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -52,7 +53,6 @@
   <div class="layui-body">
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">{{.LayoutContent}}</div>
-	{{.Menu | printf "%s"}}  
   </div>
 
 
@@ -61,12 +61,10 @@
     XCMS通用内容管理系统
   </div>
 </div>
-<script src="/static/layui.js"></script>
-<script>
-//JavaScript代码区域
-layui.use(['element','layer'], function(){
-	var element = layui.element;
-});
-</script>
+
+<!--JavaScript代码区域-->
+{{template "menu/footerjs.html"}}
+
+
 </body>
 </html>

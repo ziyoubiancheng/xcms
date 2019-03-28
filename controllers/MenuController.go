@@ -13,25 +13,14 @@ type MenuController struct {
 }
 
 func (c *MenuController) Index() {
+
+	c.setTpl()
+}
+
+func (c *MenuController) List() {
 	var m models.MenuModel
-	menu := m.Tree()
 
-	//var menu = make(map[int]models.MenuTree)
-	//	for _, v := range rows { //查询出来的数组
-	//		//fmt.Println(v.Mid, v.Parent, v.Name)
-	//		if 0 == v.Mtype {
-	//			var tree = new(models.MenuTree)
-	//			tree.MenuModel = *v
-	//			menu[v.Mid] = *tree
-	//		} else {
-	//			if tmp, ok := menu[v.Parent]; ok {
-	//				tmp.Child = append(tmp.Child, *v)
-	//				menu[v.Parent] = tmp
-	//			}
-	//		}
-	//	}
-
-	c.jsonResult(consts.JRCodeSucc, "ok", menu)
+	c.listJsonResult(consts.JRCodeSucc, "ok", 20, m.List())
 }
 
 func (c *MenuController) Add() {

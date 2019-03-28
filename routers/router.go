@@ -12,4 +12,5 @@ func init() {
 	beego.Router("/menu/add", &controllers.MenuController{}, "Post:Add")
 	beego.Router("/menu/edit", &controllers.MenuController{}, "Post:Edit")
 	beego.Router("/menu/delete", &controllers.MenuController{}, "Get:Delete")
+	beego.Router("/menu/list", &controllers.MenuController{}, "*:List")
 }

@@ -22,7 +22,9 @@ func (c *BaseController) Prepare() {
 	beego.Informational(c.controllerName, c.actionName)
 	// TODO 保存用户数据
 	fmt.Println("beego:perpare")
-	//c.Data["menu"] = "[{\"name\":\"hello\"},{\"name\":\"what\"}]"
+
+	var m models.MenuModel
+	c.Data["Menu"] = m.Tree()
 }
 
 // 设置模板
@@ -42,11 +44,19 @@ func (c *BaseController) setTpl(template ...string) {
 		actionName := strings.ToLower(c.actionName)
 		tplName = ctrlName + "/" + actionName + ".html"
 	}
+
 	c.Layout = layout
 	c.TplName = tplName
 }
 func (c *BaseController) jsonResult(code consts.JsonResultCode, msg string, obj interface{}) {
 	r := &models.JsonResult{code, msg, obj}
+	c.Data["json"] = r
+	c.ServeJSON()
+	c.StopRun()
+}
+
+func (c *BaseController) listJsonResult(code consts.JsonResultCode, msg string, count int, obj interface{}) {
+	r := &models.ListJsonResult{code, msg, obj, count}
 	c.Data["json"] = r
 	c.ServeJSON()
 	c.StopRun()

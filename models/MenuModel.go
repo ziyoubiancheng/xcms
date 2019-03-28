@@ -45,3 +45,11 @@ func (m *MenuModel) Tree() map[int]MenuTree {
 
 	return menu
 }
+
+func (m *MenuModel) List() []*MenuModel {
+	query := orm.NewOrm().QueryTable(m.TableName())
+	data := make([]*MenuModel, 0)
+	query.OrderBy("mtype", "parent", "-seq").Limit(1000).All(&data)
+
+	return data
+}
