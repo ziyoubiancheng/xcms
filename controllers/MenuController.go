@@ -34,13 +34,14 @@ func (c *MenuController) Add() {
 }
 
 func (c *MenuController) Edit() {
-	var m models.MenuModel
-	if err := c.ParseForm(&m); err == nil {
-		id, _ := orm.NewOrm().Update(&m)
-		c.jsonResult(consts.JRCodeSucc, "ok", id)
-	} else {
-		c.jsonResult(consts.JRCodeFailed, "", 0)
-	}
+	//	var m models.MenuModel
+	//	if err := c.ParseForm(&m); err == nil {
+	//		id, _ := orm.NewOrm().Update(&m)
+	//		c.jsonResult(consts.JRCodeSucc, "ok", id)
+	//	} else {
+	//		c.jsonResult(consts.JRCodeFailed, "", 0)
+	//	}
+	c.jsonResult(consts.JRCodeSucc, "ok", "edit")
 }
 
 func (c *MenuController) Delete() {

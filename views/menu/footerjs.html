@@ -41,19 +41,12 @@ layui.use('table', function(){
     //console.log(obj)
     if(obj.event === 'del'){
       layer.confirm('真的删除行么', function(index){
+		$.get("menu/del");
         obj.del();
         layer.close(index);
       });
     } else if(obj.event === 'edit'){
-      layer.prompt({
-        formType: 2
-        ,value: data.email
-      }, function(value, index){
-        obj.update({
-          email: value
-        });
-        layer.close(index);
-      });
+		self.location="menu/edit?id="+data.Mid;
     }
   });
 	
