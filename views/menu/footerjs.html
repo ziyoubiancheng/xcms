@@ -46,7 +46,13 @@ layui.use('table', function(){
 	        layer.close(index);
 	      });
 	    } else if(obj.event === 'edit'){
-			self.location="menu/edit?id="+data.Mid;
+			//self.location="menu/edit?id="+data.Mid;
+			layer.open({
+				type:2,
+				area: ['900px','600px'],
+				offset: 'auto',
+				content:"menu/edit?id="+data.Mid
+			});
 	    }
 	  });
 	

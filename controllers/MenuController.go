@@ -13,7 +13,6 @@ type MenuController struct {
 }
 
 func (c *MenuController) Index() {
-
 	c.setTpl()
 }
 
@@ -34,6 +33,10 @@ func (c *MenuController) Add() {
 }
 
 func (c *MenuController) Edit() {
+	c.setTpl()
+}
+
+func (c *MenuController) EditDo() {
 	//	var m models.MenuModel
 	//	if err := c.ParseForm(&m); err == nil {
 	//		id, _ := orm.NewOrm().Update(&m)
