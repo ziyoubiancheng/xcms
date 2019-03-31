@@ -21,7 +21,7 @@ func (c *BaseController) Prepare() {
 	c.controllerName, c.actionName = c.GetControllerAndAction()
 	beego.Informational(c.controllerName, c.actionName)
 	// TODO 保存用户数据
-	fmt.Println("beego:perpare")
+	fmt.Println("beego:perpare:" + c.controllerName + "," + c.actionName)
 
 	var m models.MenuModel
 	c.Data["Menu"] = m.Tree()
@@ -45,6 +45,10 @@ func (c *BaseController) setTpl(template ...string) {
 		tplName = ctrlName + "/" + actionName + ".html"
 	}
 
+	_, found := c.Data["Footer"]
+	if !found {
+		c.Data["Footer"] = "menu/footerjs.html"
+	}
 	c.Layout = layout
 	c.TplName = tplName
 }

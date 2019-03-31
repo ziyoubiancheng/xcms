@@ -5,13 +5,14 @@ import (
 )
 
 type MenuModel struct {
-	Mid    int `orm:"pk"`
-	Mtype  int8
+	Mid int `orm:"pk;auto"`
+	//Mtype  int8
 	Parent int
 	Seq    int
 	Name   string `orm:"size(45)"`
 	Fid    int
-	Role   int
+	//Role   int
+	//Url string `orm:"size(128)"`
 }
 
 type MenuTree struct {
@@ -26,12 +27,12 @@ func (m *MenuModel) TableName() string {
 func (m *MenuModel) Tree() map[int]MenuTree {
 	query := orm.NewOrm().QueryTable(m.TableName())
 	data := make([]*MenuModel, 0)
-	query.OrderBy("mtype", "parent", "-seq").Limit(1000).All(&data)
+	query.OrderBy("parent", "-seq").Limit(1000).All(&data)
 
 	var menu = make(map[int]MenuTree)
 	for _, v := range data { //查询出来的数组
 		//fmt.Println(v.Mid, v.Parent, v.Name)
-		if 0 == v.Mtype {
+		if 0 == v.Parent {
 			var tree = new(MenuTree)
 			tree.MenuModel = *v
 			menu[v.Mid] = *tree
@@ -49,7 +50,7 @@ func (m *MenuModel) Tree() map[int]MenuTree {
 func (m *MenuModel) List() []*MenuModel {
 	query := orm.NewOrm().QueryTable(m.TableName())
 	data := make([]*MenuModel, 0)
-	query.OrderBy("mtype", "parent", "-seq").Limit(1000).All(&data)
+	query.OrderBy("parent", "-seq").Limit(1000).All(&data)
 
 	return data
 }

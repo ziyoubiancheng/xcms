@@ -1,8 +1,36 @@
-<form class="layui-form" action="">
-  <div class="layui-form-item">
-    <label class="layui-form-label">单行输入框</label>
+<form class="layui-form" action="/menu/editdo">
+  <div class="layui-form-item layui-hide">
+    <label class="layui-form-label">ID</label>
     <div class="layui-input-block">
-      <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+      <input type="text" name="Mid" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">{{.Mid}}</input>
+    </div>
+  </div>
+
+  <div class="layui-form-item">
+    <label class="layui-form-label">菜单名</label>
+    <div class="layui-input-block">
+      <input type="text" name="Name" lay-verify="title" autocomplete="off" placeholder="请输入菜单名" class="layui-input">{{.Name}}</input>
+    </div>
+  </div>
+
+  <div class="layui-form-item">
+    <label class="layui-form-label">父菜单</label>
+    <div class="layui-input-block">
+      <input type="text" name="Parent" lay-verify="title" autocomplete="off" placeholder="请选择" class="layui-input">{{.Parent}}</input>
+    </div>
+  </div>
+
+  <div class="layui-form-item">
+    <label class="layui-form-label">排序(降序)</label>
+    <div class="layui-input-block">
+      <input type="text" name="Seq" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">{{.Seq}}</input>
+    </div>
+  </div>
+
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
   </div>
 </form>

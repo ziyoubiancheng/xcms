@@ -13,6 +13,8 @@ type MenuController struct {
 }
 
 func (c *MenuController) Index() {
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["footerjs"] = "menu/footerjs.html"
 	c.setTpl()
 }
 
@@ -33,17 +35,23 @@ func (c *MenuController) Add() {
 }
 
 func (c *MenuController) Edit() {
-	c.setTpl()
+	c.Data["Mid"] = c.GetString("mid")
+	c.Data["Parent"] = c.GetString("parent")
+	c.Data["Name"] = c.GetString("name")
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["footerjs"] = "menu/footerjs_edit.html"
+	c.setTpl("menu/edit.html", "common/layout_edit.html")
 }
 
 func (c *MenuController) EditDo() {
-	//	var m models.MenuModel
-	//	if err := c.ParseForm(&m); err == nil {
-	//		id, _ := orm.NewOrm().Update(&m)
-	//		c.jsonResult(consts.JRCodeSucc, "ok", id)
-	//	} else {
-	//		c.jsonResult(consts.JRCodeFailed, "", 0)
-	//	}
+	var m models.MenuModel
+	if err := c.ParseForm(&m); err == nil {
+		//id, _ := orm.NewOrm().Update(&m)
+		fmt.Println(m)
+		c.jsonResult(consts.JRCodeSucc, "ok", "ok")
+	} else {
+		c.jsonResult(consts.JRCodeFailed, "", 0)
+	}
 	c.jsonResult(consts.JRCodeSucc, "ok", "edit")
 }
 
