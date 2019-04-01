@@ -42,7 +42,7 @@ layui.use('table', function(){
 	    //console.log(obj)
 	    if(obj.event === 'del'){
 	      layer.confirm('真的删除行么', function(index){
-			$.get("menu/del");
+			layui.jquery.get("/menu/deletedo?mid="+data.Mid);
 	        obj.del();
 	        layer.close(index);
 	      });
@@ -53,7 +53,7 @@ layui.use('table', function(){
 				area: ['900px','600px'],
 				offset: 'auto',
 				title:'编辑',
-				content:"menu/edit?mid="+data.Mid+"&name="+data.Name
+				content:"menu/edit?mid="+data.Mid+"&name="+data.Name+"&parent="+data.Parent+"&fid="+data.Fid+"&seq="+data.Seq
 			});
 	    }
 	  });
