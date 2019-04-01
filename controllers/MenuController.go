@@ -25,6 +25,11 @@ func (c *MenuController) List() {
 }
 
 func (c *MenuController) Add() {
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["footerjs"] = "menu/footerjs_add.html"
+	c.setTpl("menu/add.html", "common/layout_edit.html")
+}
+func (c *MenuController) AddDo() {
 	var m models.MenuModel
 	if err := c.ParseForm(&m); err == nil {
 		id, _ := orm.NewOrm().Insert(&m)
@@ -57,7 +62,6 @@ func (c *MenuController) EditDo() {
 }
 
 func (c *MenuController) DeleteDo() {
-	fmt.Println("delete-------")
 	if mid, err := c.GetInt("mid"); err == nil {
 		num, _ := orm.NewOrm().Delete(&models.MenuModel{Mid: mid})
 		c.jsonResult(consts.JRCodeSucc, "1", num)
