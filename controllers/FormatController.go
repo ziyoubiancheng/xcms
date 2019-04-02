@@ -1,12 +1,12 @@
 package controllers
 
-import (
-	"fmt"
+//import (
+//	"fmt"
 
-	"github.com/astaxie/beego/orm"
-	"github.com/ziyoubiancheng/xcms/consts"
-	"github.com/ziyoubiancheng/xcms/models"
-)
+//	"github.com/astaxie/beego/orm"
+//	"github.com/ziyoubiancheng/xcms/consts"
+//	"github.com/ziyoubiancheng/xcms/models"
+//)
 
 type FormatController struct {
 	BaseController
