@@ -1,6 +1,6 @@
 package models
 
 type UserModel struct {
-	userId string
-	role   int8
+	UserId int64
+	Role   int8
 }

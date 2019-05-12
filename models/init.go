@@ -7,5 +7,5 @@ import (
 
 // init 初始化
 func init() {
-	orm.RegisterModel(new(MenuModel))
+	orm.RegisterModel(new(MenuModel), new(AdminModel))
 }
