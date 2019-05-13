@@ -68,8 +68,8 @@ func (c *BaseController) jsonResult(code consts.JsonResultCode, msg string, obj 
 	c.StopRun()
 }
 
-func (c *BaseController) listJsonResult(code consts.JsonResultCode, msg string, count int, obj interface{}) {
-	r := &models.ListJsonResult{code, msg, obj, count}
+func (c *BaseController) listJsonResult(code consts.JsonResultCode, msg string, count int64, obj interface{}) {
+	r := &models.ListJsonResult{code, msg, count, obj}
 	c.Data["json"] = r
 	c.ServeJSON()
 	c.StopRun()

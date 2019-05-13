@@ -14,6 +14,6 @@ type JsonResult struct {
 type ListJsonResult struct {
 	Code  consts.JsonResultCode `json:"code"`
 	Msg   string                `json:"msg"`
+	Count int64                 `json:"count"`
 	Data  interface{}           `json:"data"`
-	Count int                   `json:count`
 }
