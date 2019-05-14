@@ -5,7 +5,7 @@ import (
 )
 
 type UserModel struct {
-	UserId   int32  `orm:"pk;auto"`
+	UserId   int    `orm:"pk;auto"`
 	UserName string `orm:"size(64)"`
 	AuthStr  string `orm:"size(512)"`
 	Password string `orm:"size(128)"`
