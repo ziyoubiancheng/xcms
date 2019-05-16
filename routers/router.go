@@ -24,4 +24,12 @@ func init() {
 	beego.Router("/user/editdo", &controllers.UserController{}, "*:EditDo")
 	beego.Router("/user/deletedo", &controllers.UserController{}, "Get:DeleteDo")
 	beego.Router("/user/list", &controllers.UserController{}, "*:List")
+
+	//format
+	beego.Router("/format", &controllers.FormatController{}, "Get:Index")
+	beego.Router("/format/add", &controllers.FormatController{}, "Get:Add")
+	beego.Router("/format/adddo", &controllers.FormatController{}, "*:AddDo")
+	beego.Router("/format/edit", &controllers.FormatController{}, "Get:Edit")
+	beego.Router("/format/editdo", &controllers.FormatController{}, "*:EditDo")
+	beego.Router("/format/deletedo", &controllers.FormatController{}, "Get:DeleteDo")
 }
