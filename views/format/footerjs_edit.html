@@ -1,28 +1,20 @@
-<script type="text/javascript" src="/static/jsonform/deps/jquery.min.js"></script>
-	<script type="text/javascript" src="/static/jsonform/deps/underscore.js"></script>
-	<script type="text/javascript" src="/static/jsonform/deps/opt/jsv.js"></script>
-	<script type="text/javascript" src="/static/jsonform/lib/jsonform.js"></script>
-	<script type="text/javascript">
-		$('form').jsonForm({
-			schema: {
-				name: {
-					type: 'string',
-					title: 'Name',
-					required: true
-				},
-				age: {
-					type: 'number',
-					title: 'Age'
-				}
-			},
-			onSubmit: function (errors, values) {
-				if (errors) {
-					$('#res').html('<p>I beg your pardon?</p>');
-				} else {
-					$('#res').html('<p>Hello ' + values.name + '.' +
-						(values.age ? '<br/>You are ' + values.age + '.' : '') +
-						'</p>');
-				}
-			}
-		});
-	</script>
+<!--
+<script src="/static/jsonform/deps/jquery.min.js"></script>
+<script src="/static/jsonform/deps/underscore.js"></script>
+<script src="/static/jsonform/deps/opt/jsv.js"></script>
+<script src="/static/jsonform/deps/opt/jquery-ui.js"></script>
+<script src="/static/jsonform/deps/opt/bootstrap-dropdown.js"></script>
+<script src="/static/jsonform/deps/opt/bootstrap-wysihtml5.js"></script>
+<script src="/static/jsonform/deps/opt/spectrum.js"></script>
+<script src="/static/jsonform/deps/opt/ace/ace.js"></script>
+<script src="/static/jsonform/deps/opt/ace/mode-json.js"></script>
+<script src="/static/jsonform/deps/opt/ace/mode-html.js"></script>
+<script src="/static/jsonform/deps/opt/ace/mode-css.js"></script>
+<script src="/static/jsonform/deps/opt/ace/mode-javascript.js"></script>
+<script src="/static/jsonform/deps/opt/ace/mode-less.js"></script>
+<script src="/static/jsonform/deps/opt/ace/mode-markdown.js"></script>
+<script src="/static/jsonform/deps/opt/jquery.transloadit2.js"></script>
+
+<script src="/static/jsonform/lib/jsonform.js"></script>
+
+<script src="/static/jsonform/playground/playground.js"></script>-->
