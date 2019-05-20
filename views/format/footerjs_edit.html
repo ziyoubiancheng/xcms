@@ -1,20 +1,32 @@
-<!--
-<script src="/static/jsonform/deps/jquery.min.js"></script>
-<script src="/static/jsonform/deps/underscore.js"></script>
-<script src="/static/jsonform/deps/opt/jsv.js"></script>
-<script src="/static/jsonform/deps/opt/jquery-ui.js"></script>
-<script src="/static/jsonform/deps/opt/bootstrap-dropdown.js"></script>
-<script src="/static/jsonform/deps/opt/bootstrap-wysihtml5.js"></script>
-<script src="/static/jsonform/deps/opt/spectrum.js"></script>
-<script src="/static/jsonform/deps/opt/ace/ace.js"></script>
-<script src="/static/jsonform/deps/opt/ace/mode-json.js"></script>
-<script src="/static/jsonform/deps/opt/ace/mode-html.js"></script>
-<script src="/static/jsonform/deps/opt/ace/mode-css.js"></script>
-<script src="/static/jsonform/deps/opt/ace/mode-javascript.js"></script>
-<script src="/static/jsonform/deps/opt/ace/mode-less.js"></script>
-<script src="/static/jsonform/deps/opt/ace/mode-markdown.js"></script>
-<script src="/static/jsonform/deps/opt/jquery.transloadit2.js"></script>
+<script>
+layui.use(['form'], function(){
+  var form = layui.form
+  
+  //监听提交
+  form.on('submit(demo1)', function(data){
+	
+	var aceId = $('#form .ace_editor').attr('id');
+    var editor = ace.edit(aceId);
+    var jsonstr = editor.getValue();
+	
+    layer.alert(JSON.stringify(data.field) + jsonstr, {
+      title: '最终的提交信息'
+    })
+    return false;
+  });
+ 
+  //表单初始赋值
+  form.val('example', {
+    "username": "贤心" // "name": "value"
+    ,"password": "123456"
+    ,"interest": 1
+    ,"like[write]": true //复选框选中状态
+    ,"close": true //开关状态
+    ,"sex": "女"
+    ,"desc": "我爱 layui"
+  })
+  
+  
+});
+</script>
 
-<script src="/static/jsonform/lib/jsonform.js"></script>
-
-<script src="/static/jsonform/playground/playground.js"></script>-->
