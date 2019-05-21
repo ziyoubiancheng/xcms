@@ -16,7 +16,7 @@ type BaseController struct {
 	beego.Controller
 	controllerName string
 	actionName     string
-	user           *models.AdminModel
+	user           *models.UserModel
 	userId         int
 	userName       string
 	loginName      string
@@ -76,17 +76,10 @@ func (c *BaseController) listJsonResult(code consts.JsonResultCode, msg string, 
 }
 
 func (c *BaseController) auth() {
-
-	//	if c.userId == 0 && (c.controllerName != "login" && c.actionName != "loginin") {
-	//		c.redirect(beego.URLFor("LoginController.LoginIn"))
-	//	}
+	if c.userId == 0 && (c.controllerName != "login") {
+		c.pageLogin()
+	}
 }
-
-//// 重定向
-//func (c *BaseController) redirect(url string) {
-//	c.Redirect(url, 302)
-//	c.StopRun()
-//}
 
 // 重定向 去错误页
 func (c *BaseController) pageError(msg string) {
@@ -97,7 +90,7 @@ func (c *BaseController) pageError(msg string) {
 
 // 重定向 去登录页
 func (c *BaseController) pageLogin() {
-	url := c.URLFor("HomeController.Login")
+	url := c.URLFor("LoginController.Login")
 	c.Redirect(url, 302)
 	c.StopRun()
 }

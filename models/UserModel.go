@@ -27,3 +27,7 @@ func (m *UserModel) List(pageSize, page int) ([]*UserModel, int64) {
 
 	return data, total
 }
+
+func (m *UserModel) GetUserByName(username string) {
+
+}
