@@ -10,6 +10,7 @@ type UserModel struct {
 	AuthStr  string `orm:"size(512)"`
 	Password string `orm:"size(128)"`
 	IsAdmin  int8
+	IsDev    int8
 }
 
 func (m *UserModel) TableName() string {
