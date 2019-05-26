@@ -16,7 +16,7 @@
  <div class="layui-form-item">
     <label class="layui-form-label">父菜单</label>
     <div class="layui-input-block">
-      <select name="interest" lay-filter="aihao">
+      <select name="Parent" lay-filter="aihao">
         <option value=""></option>
          	{{range $index, $elem := .PMenus}}
                 <option value="{{$elem.Mid}}">{{$elem.Name}}</option>

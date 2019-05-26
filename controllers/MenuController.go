@@ -20,7 +20,24 @@ func (c *MenuController) Index() {
 
 func (c *MenuController) List() {
 	data, total := models.MenuList()
-	c.listJsonResult(consts.JRCodeSucc, "ok", total, data)
+
+	//父菜单名字
+	type MenuEx struct {
+		models.MenuModel
+		ParentName string
+	}
+	var menu = make(map[int]string)
+	menu[0] = "-"
+	for _, v := range data { //查询出来的数组
+		//fmt.Println(v.Mid, v.Parent, v.Name)
+		menu[v.Mid] = v.Name
+	}
+	var datas []MenuEx
+	for _, v := range data {
+		datas = append(datas, MenuEx{*v, menu[v.Parent]})
+	}
+
+	c.listJsonResult(consts.JRCodeSucc, "ok", total, datas)
 }
 
 func (c *MenuController) Add() {
