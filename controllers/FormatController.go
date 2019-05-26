@@ -15,7 +15,8 @@ type FormatController struct {
 func (c *FormatController) Edit() {
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["footerjs"] = "format/footerjs_edit.html"
-	c.setTpl()
+	//c.setTpl()
+	c.TplName = "format/edit.html"
 }
 func (c *FormatController) EditDo() {
 
