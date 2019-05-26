@@ -6,7 +6,6 @@ import (
 )
 
 func init() {
-	beego.Router("/", &controllers.MainController{})
 	//menu
 	beego.Router("/menu", &controllers.MenuController{}, "Get:Index")
 	beego.Router("/menu/add", &controllers.MenuController{}, "Get:Add")
@@ -26,7 +25,6 @@ func init() {
 	beego.Router("/user/list", &controllers.UserController{}, "*:List")
 
 	//format
-	beego.Router("/format", &controllers.FormatController{}, "Get:Index")
 	beego.Router("/format/edit", &controllers.FormatController{}, "Get:Edit")
 	beego.Router("/format/editdo", &controllers.FormatController{}, "*:EditDo")
 

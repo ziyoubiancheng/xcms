@@ -19,12 +19,20 @@ func (c *MenuController) Index() {
 }
 
 func (c *MenuController) List() {
-	var m models.MenuModel
-
-	c.listJsonResult(consts.JRCodeSucc, "ok", 20, m.List())
+	data, total := models.MenuList()
+	c.listJsonResult(consts.JRCodeSucc, "ok", total, data)
 }
 
 func (c *MenuController) Add() {
+	//选择父菜单数据
+	data, _ := models.MenuList()
+	var parentMenus []models.MenuModel
+	for _, value := range data {
+		if 0 == value.Parent {
+			parentMenus = append(parentMenus, *value)
+		}
+	}
+	c.Data["PMenus"] = parentMenus
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["footerjs"] = "menu/footerjs_add.html"
 	c.setTpl("menu/add.html", "common/layout_edit.html")
@@ -41,10 +49,20 @@ func (c *MenuController) AddDo() {
 
 func (c *MenuController) Edit() {
 	c.Data["Mid"] = c.GetString("mid")
-	c.Data["Parent"] = c.GetString("parent")
+	c.Data["Parent"], _ = c.GetInt("parent")
 	c.Data["Name"] = c.GetString("name")
-	c.Data["Fid"] = c.GetString("fid")
 	c.Data["Seq"] = c.GetString("seq")
+
+	//选择父菜单数据
+	data, _ := models.MenuList()
+	var parentMenus []models.MenuModel
+	for _, value := range data {
+		if 0 == value.Parent {
+			parentMenus = append(parentMenus, *value)
+		}
+	}
+	c.Data["PMenus"] = parentMenus
+
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["footerjs"] = "menu/footerjs_edit.html"
 	c.setTpl("menu/edit.html", "common/layout_edit.html")
@@ -54,7 +72,6 @@ func (c *MenuController) EditDo() {
 	var m models.MenuModel
 	if err := c.ParseForm(&m); err == nil {
 		id, _ := orm.NewOrm().Update(&m)
-		fmt.Println(m)
 		c.jsonResult(consts.JRCodeSucc, "ok", id)
 	} else {
 		c.jsonResult(consts.JRCodeFailed, "", 0)
@@ -64,7 +81,7 @@ func (c *MenuController) EditDo() {
 func (c *MenuController) DeleteDo() {
 	if mid, err := c.GetInt("mid"); err == nil {
 		num, _ := orm.NewOrm().Delete(&models.MenuModel{Mid: mid})
-		c.jsonResult(consts.JRCodeSucc, "1", num)
+		c.jsonResult(consts.JRCodeSucc, "ok", num)
 	} else {
 		fmt.Println(err, mid)
 		c.jsonResult(consts.JRCodeFailed, "", 0)

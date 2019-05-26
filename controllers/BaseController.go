@@ -32,8 +32,7 @@ func (c *BaseController) Prepare() {
 	//c.auth()
 	fmt.Println("beego:perpare:" + c.controllerName + "," + c.actionName)
 
-	var m models.MenuModel
-	c.Data["Menu"] = m.Tree()
+	c.Data["Menu"] = models.MenuStruct()
 }
 
 // 设置模板

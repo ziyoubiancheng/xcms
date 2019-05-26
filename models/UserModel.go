@@ -14,13 +14,13 @@ type UserModel struct {
 }
 
 func (m *UserModel) TableName() string {
-	return "xcms_user"
+	return TbNameUser()
 }
 
-func (m *UserModel) List(pageSize, page int) ([]*UserModel, int64) {
+func UserList(pageSize, page int) ([]*UserModel, int64) {
 	offset := (page - 1) * pageSize
 
-	query := orm.NewOrm().QueryTable(m.TableName())
+	query := orm.NewOrm().QueryTable(TbNameUser())
 	total, _ := query.Count()
 
 	data := make([]*UserModel, 0)

@@ -13,10 +13,21 @@
     </div>
   </div>
 
-  <div class="layui-form-item">
+<!--  <div class="layui-form-item">
     <label class="layui-form-label">父菜单</label>
     <div class="layui-input-block">
       <input type="text" name="Parent" lay-verify="title" autocomplete="off" placeholder="请选择" class="layui-input">
+    </div>
+  </div>-->
+ <div class="layui-form-item">
+    <label class="layui-form-label">父菜单</label>
+    <div class="layui-input-block">
+      <select name="interest" lay-filter="aihao">
+        <option value=""></option>
+         	{{range $index, $elem := .PMenus}}
+                <option value="{{$elem.Mid}}" {{if eq $elem.Mid $.Parent}} selected {{end}}>{{$elem.Name}}</option>
+             {{end}}
+      </select>
     </div>
   </div>
 

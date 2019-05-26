@@ -5,14 +5,11 @@ import (
 )
 
 type MenuModel struct {
-	Mid int `orm:"pk;auto"`
-	//Mtype  int8
+	Mid    int `orm:"pk;auto"`
 	Parent int
 	Seq    int
 	Name   string `orm:"size(45)"`
-	Fid    int
-	//Role   int
-	//Url string `orm:"size(128)"`
+	Format string `orm:"size(2048);default({})"`
 }
 
 type MenuTree struct {
@@ -21,11 +18,11 @@ type MenuTree struct {
 }
 
 func (m *MenuModel) TableName() string {
-	return "xcms_menu"
+	return TbNameMenu()
 }
 
-func (m *MenuModel) Tree() map[int]MenuTree {
-	query := orm.NewOrm().QueryTable(m.TableName())
+func MenuStruct() map[int]MenuTree {
+	query := orm.NewOrm().QueryTable(TbNameMenu())
 	data := make([]*MenuModel, 0)
 	query.OrderBy("parent", "-seq").Limit(1000).All(&data)
 
@@ -47,10 +44,11 @@ func (m *MenuModel) Tree() map[int]MenuTree {
 	return menu
 }
 
-func (m *MenuModel) List() []*MenuModel {
-	query := orm.NewOrm().QueryTable(m.TableName())
+func MenuList() ([]*MenuModel, int64) {
+	query := orm.NewOrm().QueryTable(TbNameMenu())
+	total, _ := query.Count()
 	data := make([]*MenuModel, 0)
 	query.OrderBy("parent", "-seq").Limit(1000).All(&data)
 
-	return data
+	return data, total
 }

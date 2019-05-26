@@ -28,8 +28,7 @@ func (c *UserController) List() {
 		size = 20
 	}
 
-	var m models.UserModel
-	result, count := m.List(size, page)
+	result, count := models.UserList(size, page)
 	c.listJsonResult(consts.JRCodeSucc, "ok", count, result)
 }
 
