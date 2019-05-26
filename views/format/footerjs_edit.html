@@ -13,7 +13,10 @@ layui.use(['form'], function(){
 	form_data['formatstr']=jsonstr;
 	form_data['mid']={{.Mid}}
       $.post('/format/editdo', form_data, function (out) {
-		
+		layer.msg('已成功修改表单', {
+	       	time: 5000, //20s后自动关闭
+	       	btn: ['明白了']
+	      });
 	}, "json");
     return false;
   });
