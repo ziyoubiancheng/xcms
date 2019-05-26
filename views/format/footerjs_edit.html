@@ -1,29 +1,26 @@
 <script>
+var $;
 layui.use(['form'], function(){
   var form = layui.form
   
   //监听提交
   form.on('submit(demo1)', function(data){
-	
 	var aceId = $('#form .ace_editor').attr('id');
-    var editor = ace.edit(aceId);
-    var jsonstr = editor.getValue();
+    	var editor = ace.edit(aceId);
+    	var jsonstr = editor.getValue();
 	
-    layer.alert(JSON.stringify(data.field) + jsonstr, {
-      title: '最终的提交信息'
-    })
+	var form_data = data.field;
+	form_data['formatstr']=jsonstr;
+	form_data['mid']={{.Mid}}
+      $.post('/format/editdo', form_data, function (out) {
+		
+	}, "json");
     return false;
   });
  
-  //表单初始赋值
+//表单初始赋值
   form.val('example', {
-    "username": "贤心" // "name": "value"
-    ,"password": "123456"
-    ,"interest": 1
-    ,"like[write]": true //复选框选中状态
-    ,"close": true //开关状态
-    ,"sex": "女"
-    ,"desc": "我爱 layui"
+	"Mid":{{.Mid}}
   })
   
   

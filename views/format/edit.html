@@ -56,11 +56,16 @@
 	<div class="row">
 	<div class="col-md-5">
 		<div>
-			<form class="layui-form">
+			<form class="layui-form" lay-filter="example">
+				<div class="layui-form-item layui-hide">
+				    	<label class="layui-form-label">ID</label>
+				    	<div class="layui-input-block">
+				      		<input type="text" name="Mid" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+				    	</div>
+				</div>
+
 				<div class="layui-form-item">
-				    <div class="layui-input-inline">
-				    	<input type="text" name="username" lay-verify="required" placeholder="请输入数据表名" autocomplete="off" class="layui-input">
-				    	<p></p>
+				    	<div class="layui-input-inline">
 						<button class="layui-btn" lay-submit lay-filter="demo1">保存表单</button>
 					</div>
 				</div>
