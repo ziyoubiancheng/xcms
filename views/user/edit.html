@@ -1,37 +1,60 @@
-<form class="layui-form" action="/menu/editdo" lay-filter="example">
-  <div class="layui-form-item layui-hide">
+<form class="layui-form" action="/user/adddo" lay-filter="example">
+  
+<div class="layui-form-item layui-hide">
     <label class="layui-form-label">ID</label>
     <div class="layui-input-block">
-      <input type="text" name="Mid" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
+      <input type="text" name="UserId" lay-verify="title" autocomplete="off" placeholder="" class="layui-input">
     </div>
   </div>
 
   <div class="layui-form-item">
-    <label class="layui-form-label">菜单名</label>
+    <label class="layui-form-label">用户id</label>
     <div class="layui-input-block">
-      <input type="text" name="Name" lay-verify="title" autocomplete="off" placeholder="请输入菜单名" class="layui-input">
+      <input type="text" name="UserKey" lay-verify="title" autocomplete="off" placeholder="用户唯一标示" class="layui-input">
     </div>
   </div>
 
   <div class="layui-form-item">
-    <label class="layui-form-label">父菜单</label>
+    <label class="layui-form-label">用户名</label>
     <div class="layui-input-block">
-      <input type="text" name="Parent" lay-verify="title" autocomplete="off" placeholder="请选择" class="layui-input">
+      <input type="text" name="UserName" lay-verify="title" autocomplete="off" placeholder="用户昵称" class="layui-input">
     </div>
   </div>
 
   <div class="layui-form-item">
-    <label class="layui-form-label">排序(降序)</label>
+    <label class="layui-form-label">初始密码</label>
     <div class="layui-input-block">
-      <input type="text" name="Seq" lay-verify="title" autocomplete="off" placeholder="请输入序号" class="layui-input">
+      <input type="password" name="Password" lay-verify="title" autocomplete="off" placeholder="初始密码" class="layui-input">
     </div>
   </div>
 
   <div class="layui-form-item">
-    <label class="layui-form-label">内容</label>
+    <label class="layui-form-label">密码确认</label>
     <div class="layui-input-block">
-      <input type="text" name="Fid" lay-verify="title" autocomplete="off" placeholder="选择" class="layui-input">
+      <input type="password" name="Password1" lay-verify="title" autocomplete="off" placeholder="密码确认" class="layui-input">
     </div>
+  </div>
+
+  <div class="layui-form-item">
+	<label class="layui-form-label">是否管理员</label>
+	<div class="layui-input-block">
+	{{if eq $.User.IsAdmin 1}}
+		<input type="radio" name="IsAdmin" value="0" title="否">
+		<input type="radio" name="IsAdmin" value="1" title="是" checked="">
+	{{else}}
+		<input type="radio" name="IsAdmin" value="0" title="否" checked="">
+		<input type="radio" name="IsAdmin" value="1" title="是">
+	{{end}}
+	</div>
+  </div>
+
+  <div class="layui-form-item" pane="">
+	<label class="layui-form-label">用户权限</label>
+		{{range $key,$elem := .Menus}}
+			<input type="checkbox" name="userauth_{{$key}}" lay-skin="primary" title="{{$elem.Name}}" {{if $elem.Ischeck}} checked="" {{end}}>
+		{{end}}
+	<div class="layui-input-block">
+	</div>
   </div>
 
   <div class="layui-form-item">

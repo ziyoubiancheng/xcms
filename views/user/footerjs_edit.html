@@ -7,11 +7,11 @@ layui.use(['form', 'layedit'], function(){
  
   //表单初始赋值
   form.val('example', {
-	"Mid":{{.Mid}}
-    ,"Name": {{.Name}} 
-    ,"Parent": {{.Parent}}
-    ,"Seq":{{.Seq}}
-    ,"Fid": {{.Fid}}
+	"UserId":{{.User.UserId}}
+    ,"UserName": {{.User.UserName}} 
+    ,"UserKey": {{.User.UserKey}}
+	,"Password":{{.User.Password}}
+	,"Password1":{{.User.Password}}
   })
 
   //监听提交

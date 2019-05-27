@@ -6,15 +6,21 @@ import (
 
 type UserModel struct {
 	UserId   int    `orm:"pk;auto"`
+	UserKey  string `orm:"size(64),unique"`
 	UserName string `orm:"size(64)"`
 	AuthStr  string `orm:"size(512)"`
 	Password string `orm:"size(128)"`
-	IsAdmin  int8
-	IsDev    int8
+	IsAdmin  int8   `orm:"default(0)"`
 }
 
 func (m *UserModel) TableName() string {
 	return TbNameUser()
+}
+
+func (u *UserModel) TableUnique() [][]string {
+	return [][]string{
+		[]string{"UserKey"},
+	}
 }
 
 func UserList(pageSize, page int) ([]*UserModel, int64) {
