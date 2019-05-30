@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/astaxie/beego/orm"
 )
 
@@ -35,6 +37,10 @@ func UserList(pageSize, page int) ([]*UserModel, int64) {
 	return data, total
 }
 
-func (m *UserModel) GetUserByName(username string) {
-
+func GetUserByName(username string) UserModel {
+	user := UserModel{UserKey: username}
+	o := orm.NewOrm()
+	o.Read(&user, "user_key")
+	fmt.Println(user)
+	return user
 }

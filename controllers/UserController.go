@@ -8,6 +8,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	"github.com/ziyoubiancheng/xcms/consts"
 	"github.com/ziyoubiancheng/xcms/models"
+	"github.com/ziyoubiancheng/xcms/utils"
 )
 
 type UserController struct {
@@ -58,6 +59,7 @@ func (c *UserController) AddDo() {
 		}
 		menujson, _ := json.Marshal(menus)
 		m.AuthStr = string(menujson)
+		m.Password = utils.Md5([]byte(m.Password))
 		id, _ := orm.NewOrm().Insert(&m)
 		c.jsonResult(consts.JRCodeSucc, "ok", id)
 	} else {
@@ -73,6 +75,7 @@ func (c *UserController) Edit() {
 	o := orm.NewOrm()
 	var user = models.UserModel{UserId: userid}
 	o.Read(&user)
+	user.Password = ""
 	c.Data["User"] = user
 
 	authmap := make(map[int]bool)
@@ -115,6 +118,8 @@ func (c *UserController) EditDo() {
 		}
 		menujson, _ := json.Marshal(menus)
 		m.AuthStr = string(menujson)
+		//密码
+		m.Password = utils.Md5([]byte(m.Password))
 		id, _ := orm.NewOrm().Update(&m)
 		c.jsonResult(consts.JRCodeSucc, "ok", id)
 	} else {

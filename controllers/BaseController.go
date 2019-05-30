@@ -1,37 +1,24 @@
 package controllers
 
 import (
-	"fmt"
-	//	"strconv"
 	"strings"
 
 	"github.com/astaxie/beego"
-	//	cache "github.com/patrickmn/go-cache"
 	"github.com/ziyoubiancheng/xcms/consts"
 	"github.com/ziyoubiancheng/xcms/models"
-	//	"github.com/ziyoubiancheng/xcms/utils"
 )
 
 type BaseController struct {
 	beego.Controller
 	controllerName string
 	actionName     string
-	user           *models.UserModel
-	userId         int
-	userName       string
-	loginName      string
-	pageSize       int
-	allowUrl       string
 }
 
 func (c *BaseController) Prepare() {
 	//附值
 	c.controllerName, c.actionName = c.GetControllerAndAction()
 	beego.Informational(c.controllerName, c.actionName)
-	// TODO 保存用户数据
-	//c.auth()
-	fmt.Println("beego:perpare:" + c.controllerName + "," + c.actionName)
-
+	c.auth()
 	c.Data["Menu"] = models.MenuStruct()
 }
 
@@ -75,21 +62,11 @@ func (c *BaseController) listJsonResult(code consts.JsonResultCode, msg string, 
 }
 
 func (c *BaseController) auth() {
-	if c.userId == 0 && (c.controllerName != "login") {
-		c.pageLogin()
+	user := c.GetSession("xcmsuser")
+	beego.Debug("base auth" + c.controllerName)
+	beego.Debug(user)
+	if user == nil {
+		c.Redirect("/login", 302)
+		c.StopRun()
 	}
-}
-
-// 重定向 去错误页
-func (c *BaseController) pageError(msg string) {
-	errorurl := c.URLFor("HomeController.Error") + "/" + msg
-	c.Redirect(errorurl, 302)
-	c.StopRun()
-}
-
-// 重定向 去登录页
-func (c *BaseController) pageLogin() {
-	url := c.URLFor("LoginController.Login")
-	c.Redirect(url, 302)
-	c.StopRun()
 }
