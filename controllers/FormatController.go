@@ -13,7 +13,13 @@ type FormatController struct {
 }
 
 func (c *FormatController) Edit() {
+	midvalue, _ := c.GetInt("mid")
+	menu := models.MenuModel{Mid: midvalue}
+	o := orm.NewOrm()
+	o.Read(&menu)
+
 	c.Data["Mid"] = c.GetString("mid")
+	c.Data["Format"] = menu.Format
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["footerjs"] = "format/footerjs_edit.html"
 	c.setTpl("format/edit.html", "common/layout_edit.html")

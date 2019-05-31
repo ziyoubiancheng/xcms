@@ -26,17 +26,10 @@ $('document').ready(function () {
   /**
    * Loads and displays the example identified by the given name
    */
-  var loadExample = function () {
-    $.ajax({
-      url: '/static/jsonform/playground/examples/gettingstarted.json',
-      dataType: 'text'
-    }).done(function (code) {
-      var aceId = $('#form .ace_editor').attr('id');
-      var editor = ace.edit(aceId);
-      editor.getSession().setValue(code);
-    }).fail(function () {
-      $('#result').html('Sorry, I could not retrieve the example!');
-    });
+  var loadExample = function (fmtjson) {
+		var aceId = $('#form .ace_editor').attr('id');
+      	var editor = ace.edit(aceId);
+      	editor.getSession().setValue(fmtjson);
   };
 
 
@@ -96,11 +89,4 @@ $('document').ready(function () {
   // Render the form
   $('#form').jsonForm(formObject);
 
-  // Wait until ACE is loaded
-  var itv = window.setInterval(function() {
-    if (window.ace) {
-      window.clearInterval(itv);
-      loadExample();
-    }
-  }, 1000);
 });
