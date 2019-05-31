@@ -31,3 +31,7 @@ func (c *FormatController) EditDo() {
 
 	c.jsonResult(consts.JRCodeFailed, "", 0)
 }
+
+func (c *FormatController) Examples() {
+	c.setTpl("format/examples.html", "common/layout_edit.html")
+}

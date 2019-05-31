@@ -29,6 +29,7 @@ func init() {
 
 	//format
 	beego.Router("/format/edit", &controllers.FormatController{}, "Get:Edit")
+	beego.Router("/format/examples", &controllers.FormatController{}, "Get:Examples")
 	beego.Router("/format/editdo", &controllers.FormatController{}, "*:EditDo")
 
 	//login
