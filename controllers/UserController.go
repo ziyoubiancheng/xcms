@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 
 	"github.com/astaxie/beego/orm"
@@ -63,7 +62,6 @@ func (c *UserController) AddDo() {
 		id, _ := orm.NewOrm().Insert(&m)
 		c.jsonResult(consts.JRCodeSucc, "ok", id)
 	} else {
-		fmt.Println(err)
 		c.jsonResult(consts.JRCodeFailed, "", 0)
 	}
 }
@@ -132,7 +130,6 @@ func (c *UserController) DeleteDo() {
 		num, _ := orm.NewOrm().Delete(&models.UserModel{UserId: uid})
 		c.jsonResult(consts.JRCodeSucc, "1", num)
 	} else {
-		fmt.Println(err, uid)
 		c.jsonResult(consts.JRCodeFailed, "", 0)
 	}
 }

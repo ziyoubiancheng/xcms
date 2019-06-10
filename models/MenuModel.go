@@ -1,6 +1,9 @@
 package models
 
 import (
+	"encoding/json"
+	"sort"
+
 	"github.com/astaxie/beego/orm"
 )
 
@@ -21,22 +24,33 @@ func (m *MenuModel) TableName() string {
 	return TbNameMenu()
 }
 
-func MenuStruct() map[int]MenuTree {
+func MenuStruct(user UserModel) map[int]MenuTree {
 	query := orm.NewOrm().QueryTable(TbNameMenu())
 	data := make([]*MenuModel, 0)
 	query.OrderBy("parent", "-seq").Limit(1000).All(&data)
 
 	var menu = make(map[int]MenuTree)
-	for _, v := range data { //查询出来的数组
-		//fmt.Println(v.Mid, v.Parent, v.Name)
-		if 0 == v.Parent {
-			var tree = new(MenuTree)
-			tree.MenuModel = *v
-			menu[v.Mid] = *tree
-		} else {
-			if tmp, ok := menu[v.Parent]; ok {
-				tmp.Child = append(tmp.Child, *v)
-				menu[v.Parent] = tmp
+	//auth
+	if len(user.AuthStr) > 0 {
+		var authArr []int
+		json.Unmarshal([]byte(user.AuthStr), &authArr)
+		sort.Ints(authArr)
+
+		for _, v := range data { //查询出来的数组
+			//fmt.Println(v.Mid, v.Parent, v.Name)
+			if 0 == v.Parent {
+				idx := sort.SearchInts(authArr, v.Mid)
+				found := (idx < len(authArr) && authArr[idx] == v.Mid)
+				if found {
+					var tree = new(MenuTree)
+					tree.MenuModel = *v
+					menu[v.Mid] = *tree
+				}
+			} else {
+				if tmp, ok := menu[v.Parent]; ok {
+					tmp.Child = append(tmp.Child, *v)
+					menu[v.Parent] = tmp
+				}
 			}
 		}
 	}

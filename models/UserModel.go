@@ -1,8 +1,6 @@
 package models
 
 import (
-	"fmt"
-
 	"github.com/astaxie/beego/orm"
 )
 
@@ -41,6 +39,5 @@ func GetUserByName(username string) UserModel {
 	user := UserModel{UserKey: username}
 	o := orm.NewOrm()
 	o.Read(&user, "user_key")
-	fmt.Println(user)
 	return user
 }
