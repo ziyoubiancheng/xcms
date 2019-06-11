@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"fmt"
 	"sort"
 
 	"github.com/astaxie/beego/orm"
@@ -24,7 +25,7 @@ func (m *MenuModel) TableName() string {
 	return TbNameMenu()
 }
 
-func MenuStruct(user UserModel) map[int]MenuTree {
+func MenuTreeStruct(user UserModel) map[int]MenuTree {
 	query := orm.NewOrm().QueryTable(TbNameMenu())
 	data := make([]*MenuModel, 0)
 	query.OrderBy("parent", "-seq").Limit(1000).All(&data)
@@ -73,4 +74,22 @@ func ParentMenuList() []*MenuModel {
 	query.OrderBy("-seq").Limit(1000).All(&data)
 
 	return data
+}
+
+func MenuStruct(mid int) {
+	o := orm.NewOrm()
+	menu := MenuModel{Mid: mid}
+	o.Read(&menu)
+	fmt.Println(menu)
+
+	var jsonmap map[string]interface{}
+	err := json.Unmarshal([]byte(menu.Format), &jsonmap)
+	if err != nil {
+		fmt.Println(err)
+	}
+	//fmt.Println(jsonmap)
+	for k, v := range jsonmap {
+		fmt.Print(k + ":")
+		fmt.Println(v)
+	}
 }

@@ -34,4 +34,7 @@ func init() {
 
 	//login
 	beego.Router("/login", &controllers.LoginController{}, "*:Index")
+
+	//list
+	beego.Router("/list/?:mid", &controllers.DataController{}, "Get:Index")
 }

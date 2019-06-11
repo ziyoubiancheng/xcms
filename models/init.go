@@ -1,14 +1,14 @@
 package models
 
 import (
-	"strconv"
+	//"strconv"
 	//"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
 
 // init 初始化
 func init() {
-	orm.RegisterModel(new(MenuModel), new(UserModel))
+	orm.RegisterModel(new(MenuModel), new(UserModel), new(DataModel))
 }
 
 func TbNameMenu() string {
@@ -19,6 +19,6 @@ func TbNameUser() string {
 	return "xcms_user"
 }
 
-func TbNameData(mid int) string {
-	return "xcms_data_" + strconv.Itoa(mid)
+func TbNameData() string {
+	return "xcms_data"
 }
