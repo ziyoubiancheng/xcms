@@ -59,9 +59,7 @@ func (c *DataController) List() {
 }
 
 func (c *DataController) Add() {
-	format := models.MenuFormatStruct(c.Mid)
-	c.Data["Schema"] = format.Get("schema").MustMap()
-	c.Data["Form"] = format.Get("form").MustArray()
+	c.initForm()
 
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["footerjs"] = "data/footerjs_add.html"
@@ -70,16 +68,13 @@ func (c *DataController) Add() {
 func (c *DataController) AddDo() {
 	fmt.Println(c.Mid)
 	fmt.Println("+++++++++")
-	//fmt.Println(c.Ctx.Request)
-	var m interface{}
-	if err := c.ParseForm(&m); err == nil {
-		fmt.Println(m)
-	}
+	fmt.Println(string(c.Ctx.Input.RequestBody))
 	fmt.Println("---------")
 	c.listJsonResult(consts.JRCodeFailed, "nil", 0, nil)
 }
 
 func (c *DataController) Edit() {
+	c.initForm()
 
 }
 func (c *DataController) EditDo() {
@@ -88,4 +83,61 @@ func (c *DataController) EditDo() {
 
 func (c *DataController) DeleteDo() {
 
+}
+
+func (c *DataController) initForm() {
+	format := models.MenuFormatStruct(c.Mid)
+	schemaMap := format.Get("schema")
+	formArray := format.Get("form")
+
+	//添加通用Form
+	fa := formArray.MustArray()
+	if len(fa) <= 0 {
+		var tmpArray []map[string]string
+		tmpArray = append(tmpArray, map[string]string{"key": "parent"})
+		tmpArray = append(tmpArray, map[string]string{"key": "name"})
+		tmpArray = append(tmpArray, map[string]string{"key": "seq"})
+		tmpArray = append(tmpArray, map[string]string{"key": "status"})
+		for k, _ := range schemaMap.MustMap() {
+			tmpArray = append(tmpArray, map[string]string{"key": k})
+		}
+		tmpArray = append(tmpArray, map[string]string{"type": "submit", "title": "提交"})
+
+		c.Data["Form"] = tmpArray
+	} else {
+		var tmpArray []interface{}
+		tmpArray = append(tmpArray, map[string]string{"key": "parent"})
+		tmpArray = append(tmpArray, map[string]string{"key": "name"})
+		tmpArray = append(tmpArray, map[string]string{"key": "seq"})
+		tmpArray = append(tmpArray, map[string]string{"key": "status"})
+		var haveSubmit bool = false
+		for _, v := range formArray.MustArray() {
+			tmpArray = append(tmpArray, v)
+			if "submit" == v["type"] {
+				haveSubmit = true
+			}
+		}
+		if false == haveSubmit {
+			tmpArray = append(tmpArray, map[string]string{"type": "submit", "title": "提交"})
+		}
+		c.Data["Form"] = tmpArray
+	}
+
+	//添加通用Schema
+	schemaMap.SetPath([]string{"parent", "type"}, "integer")
+	schemaMap.SetPath([]string{"parent", "title"}, "上级数据")
+
+	schemaMap.SetPath([]string{"name", "type"}, "string")
+	schemaMap.SetPath([]string{"name", "title"}, "名称")
+
+	schemaMap.SetPath([]string{"seq", "type"}, "integer")
+	schemaMap.SetPath([]string{"seq", "title"}, "排序(倒序)")
+
+	schemaMap.SetPath([]string{"status", "type"}, "integer")
+	schemaMap.SetPath([]string{"status", "title"}, "状态")
+	schemaMap.SetPath([]string{"status", "enum"}, []int{0, 1})
+
+	c.Data["Schema"] = schemaMap.MustMap()
+
+	fmt.Println(schemaMap)
 }
