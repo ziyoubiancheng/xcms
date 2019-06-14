@@ -2,10 +2,10 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
 	"sort"
 
 	"github.com/astaxie/beego/orm"
+	"github.com/bitly/go-simplejson"
 )
 
 type MenuModel struct {
@@ -76,20 +76,20 @@ func ParentMenuList() []*MenuModel {
 	return data
 }
 
-func MenuStruct(mid int) {
+func MenuFormatStruct(mid int) *simplejson.Json {
 	o := orm.NewOrm()
 	menu := MenuModel{Mid: mid}
-	o.Read(&menu)
-	fmt.Println(menu)
+	err := o.Read(&menu)
+	//fmt.Println(menu)
+	if nil == err {
+		js, _ := simplejson.NewJson([]byte(menu.Format))
+		return js
+	}
 
-	var jsonmap map[string]interface{}
-	err := json.Unmarshal([]byte(menu.Format), &jsonmap)
-	if err != nil {
-		fmt.Println(err)
-	}
-	//fmt.Println(jsonmap)
-	for k, v := range jsonmap {
-		fmt.Print(k + ":")
-		fmt.Println(v)
-	}
+	return nil
 }
+
+//func json2map(jsonstr string) {
+//	//	aws, _ := js.Get("schema").Get("friends").Get("type").String()
+//	//	fmt.Println(aws)
+//}
