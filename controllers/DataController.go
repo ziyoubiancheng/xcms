@@ -111,9 +111,11 @@ func (c *DataController) initForm() {
 		tmpArray = append(tmpArray, map[string]string{"key": "seq"})
 		tmpArray = append(tmpArray, map[string]string{"key": "status"})
 		var haveSubmit bool = false
-		for _, v := range formArray.MustArray() {
+		for k, v := range formArray.MustArray() {
 			tmpArray = append(tmpArray, v)
-			if "submit" == v["type"] {
+			tp := formArray.GetIndex(k).Get("type")
+			fmt.Println(tp)
+			if "submit" == tp.MustString() {
 				haveSubmit = true
 			}
 		}
@@ -138,6 +140,4 @@ func (c *DataController) initForm() {
 	schemaMap.SetPath([]string{"status", "enum"}, []int{0, 1})
 
 	c.Data["Schema"] = schemaMap.MustMap()
-
-	fmt.Println(schemaMap)
 }
