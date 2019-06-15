@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"fmt"
 	"sort"
 
 	"github.com/astaxie/beego/orm"
@@ -80,10 +81,12 @@ func MenuFormatStruct(mid int) *simplejson.Json {
 	o := orm.NewOrm()
 	menu := MenuModel{Mid: mid}
 	err := o.Read(&menu)
-	//fmt.Println(menu)
+	fmt.Println(menu.Format)
 	if nil == err {
-		js, _ := simplejson.NewJson([]byte(menu.Format))
-		return js
+		js, err2 := simplejson.NewJson([]byte(menu.Format))
+		if nil == err2 {
+			return js
+		}
 	}
 
 	return nil

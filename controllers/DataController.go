@@ -87,6 +87,9 @@ func (c *DataController) DeleteDo() {
 
 func (c *DataController) initForm() {
 	format := models.MenuFormatStruct(c.Mid)
+	if nil == format {
+		return
+	}
 	schemaMap := format.Get("schema")
 	formArray := format.Get("form")
 
