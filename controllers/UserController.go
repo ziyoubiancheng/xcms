@@ -25,7 +25,7 @@ func (c *UserController) List() {
 	if err != nil {
 		page = 1
 	}
-	size, err := c.GetInt("size")
+	size, err := c.GetInt("limit")
 	if err != nil {
 		size = 20
 	}

@@ -4,17 +4,17 @@ layui.use('table', function(){
   
   	table.render({
 	    elem: '#test'
-	    ,url:'data/list/'
+	    ,url:'/data/list/{{.Mid}}'
 		,toolbar: '#toolbarDemo'
 	    ,cellMinWidth: 60 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-	    ,cols: [[
-	      	{field:'Did', title: 'ID', sort: true}
+	    ,cols: [
+	      	{field:'sname', title: 'ID', sort: true}
 	      	,{field:'Name', title: 'Title'}
-			{{range $k,$v := .Title}}
-				,{field:'{{$k}}',title:'{{$v}}'}
-			{{end}}
-			,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
-	    ]]
+		{{range $k,$v := .Title}}
+			,{field:'{{$k}}',title:'{{$v}}'}
+		{{end}}
+		,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+	    ]
 		,page:true
   	});
 

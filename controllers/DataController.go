@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"fmt"
+	//	"fmt"
 	"strconv"
 	"time"
 
@@ -37,14 +37,10 @@ func (c *DataController) Index() {
 		titlemap := sj.Get("schema")
 		for k, _ := range titlemap.MustMap() {
 			stype := titlemap.GetPath(k, "type").MustString()
-			fmt.Println(k)
-			fmt.Println(stype)
 			if "object" != stype && "array" != stype {
 				title[k] = titlemap.GetPath(k, "title").MustString()
 			}
 		}
-
-		fmt.Println(title)
 		c.Data["Title"] = title
 	}
 
@@ -55,8 +51,17 @@ func (c *DataController) Index() {
 }
 
 func (c *DataController) List() {
+	page, err := c.GetInt("page")
+	if err != nil {
+		page = 1
+	}
+	size, err := c.GetInt("limit")
+	if err != nil {
+		size = 20
+	}
 
-	c.listJsonResult(consts.JRCodeFailed, "nil", 0, nil)
+	data, total := models.DataList(c.Mid, size, page)
+	c.listJsonResult(consts.JRCodeSucc, "ok", total, data)
 }
 
 func (c *DataController) Add() {
@@ -67,10 +72,6 @@ func (c *DataController) Add() {
 	c.setTpl("data/add.html", "common/layout_jfedit.html")
 }
 func (c *DataController) AddDo() {
-	fmt.Println(c.Mid)
-	fmt.Println("+++++++++")
-	fmt.Println(string(c.Ctx.Input.RequestBody))
-	fmt.Println("---------")
 	if len(c.Ctx.Input.RequestBody) > 0 {
 		//map
 		sj, err := simplejson.NewJson(c.Ctx.Input.RequestBody)
@@ -140,7 +141,6 @@ func (c *DataController) initForm() {
 		for k, v := range formArray.MustArray() {
 			tmpArray = append(tmpArray, v)
 			tp := formArray.GetIndex(k).Get("type")
-			fmt.Println(tp)
 			if "submit" == tp.MustString() {
 				haveSubmit = true
 			}

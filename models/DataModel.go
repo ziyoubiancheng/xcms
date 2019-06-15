@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
+	"github.com/bitly/go-simplejson"
 )
 
 type DataModel struct {
@@ -24,7 +25,7 @@ func (c *DataModel) TableName() string {
 	return TbNameData()
 }
 
-func DataList(mid, pageSize, page int) ([]*DataModel, int64) {
+func DataList(mid, pageSize, page int) ([]*DataStruct, int64) {
 	if mid <= 0 {
 		return nil, 0
 	}
@@ -34,6 +35,13 @@ func DataList(mid, pageSize, page int) ([]*DataModel, int64) {
 	total, _ := query.Count()
 	data := make([]*DataModel, 0)
 	query.OrderBy("parent", "-seq").Limit(pageSize, offset).All(&data)
+	dataEx := make([]*DataStruct, 0)
+	for _, v := range data {
+		sj, err := simplejson.NewJson([]byte(v.Content))
+		if nil == err {
+			dataEx = append(dataEx, &DataStruct{*v, sj.MustMap()})
+		}
+	}
 
-	return data, total
+	return dataEx, total
 }
