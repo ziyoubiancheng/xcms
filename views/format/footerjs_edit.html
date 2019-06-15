@@ -15,7 +15,7 @@ layui.use(['form'], function(){
       $.post('/format/editdo', form_data, function (out) {
 		layer.msg('已成功修改表单', {
 	       	time: 5000, //20s后自动关闭
-	       	btn: ['明白了']
+	       	btn: ['OK']
 	      });
 	}, "json");
     return false;

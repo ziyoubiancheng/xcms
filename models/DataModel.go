@@ -12,8 +12,6 @@ type DataModel struct {
 	Content    string `orm:"size(2048);default({})"`
 	Seq        int    `orm:"index"`
 	Status     int8
-	StartStamp int64
-	EndStamp   int64
 	UpdateTime int64
 }
 

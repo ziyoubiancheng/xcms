@@ -3,9 +3,10 @@ package controllers
 import (
 	"fmt"
 	"strconv"
+	"time"
 
-	//"github.com/astaxie/beego/orm"
-	//"github.com/bitly/go-simplejson"
+	"github.com/astaxie/beego/orm"
+	"github.com/bitly/go-simplejson"
 	"github.com/ziyoubiancheng/xcms/consts"
 	"github.com/ziyoubiancheng/xcms/models"
 )
@@ -70,7 +71,29 @@ func (c *DataController) AddDo() {
 	fmt.Println("+++++++++")
 	fmt.Println(string(c.Ctx.Input.RequestBody))
 	fmt.Println("---------")
-	c.listJsonResult(consts.JRCodeFailed, "nil", 0, nil)
+	if len(c.Ctx.Input.RequestBody) > 0 {
+		//map
+		sj, err := simplejson.NewJson(c.Ctx.Input.RequestBody)
+		if nil == err {
+			//data model
+			var m models.DataModel
+			m.Content = string(c.Ctx.Input.RequestBody)
+			//Form默认数据
+			m.Mid = c.Mid
+			m.Parent = sj.Get("parent").MustInt()
+			m.Name = sj.Get("name").MustString()
+			m.Seq = sj.Get("seq").MustInt()
+			m.Status = int8(sj.Get("status").MustInt())
+			m.UpdateTime = time.Now().Unix()
+
+			o := orm.NewOrm()
+			id, err := o.Insert(&m)
+			if nil == err {
+				c.jsonResult(consts.JRCodeSucc, "ok", id)
+			}
+		}
+	}
+	c.jsonResult(consts.JRCodeFailed, "nil", 0)
 }
 
 func (c *DataController) Edit() {

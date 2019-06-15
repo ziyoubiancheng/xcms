@@ -18,8 +18,8 @@ func (c *BaseController) Prepare() {
 	//附值
 	c.controllerName, c.actionName = c.GetControllerAndAction()
 	beego.Informational(c.controllerName, c.actionName)
-	user := c.auth()
-	c.Data["Menu"] = models.MenuTreeStruct(user)
+	//user := c.auth()
+	//c.Data["Menu"] = models.MenuTreeStruct(user)
 }
 
 // 设置模板
