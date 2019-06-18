@@ -8,7 +8,7 @@
 	          console.log('Values extracted from submitted form', values);
 	        }
 	        //window.alert('OK Form submitted. Values object:\n' + JSON.stringify(values, null, 2));
-		$.post('/data/adddo/{{.Mid}}',JSON.stringify(values, null, 2),function(result){
+		$.post('/data/editdo/{{.Mid}}?did={{.Did}}',JSON.stringify(values, null, 2),function(result){
 			 //window.alert('return:\n' + JSON.stringify(result, null, 2));
 			window.close();
 		})

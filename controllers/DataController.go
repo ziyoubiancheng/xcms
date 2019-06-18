@@ -106,9 +106,39 @@ func (c *DataController) AddDo() {
 func (c *DataController) Edit() {
 	c.initForm()
 
+	c.Data["Did"] = c.GetString("did")
+	c.LayoutSections = make(map[string]string)
+	c.LayoutSections["footerjs"] = "data/footerjs_edit.html"
+	c.setTpl("data/edit.html", "common/layout_jfedit.html")
 }
 func (c *DataController) EditDo() {
+	did, _ := c.GetInt("did")
+	if did > 0 {
+		if len(c.Ctx.Input.RequestBody) > 0 {
+			//map
+			sj, err := simplejson.NewJson(c.Ctx.Input.RequestBody)
+			if nil == err {
+				//data model
+				var m models.DataModel
+				m.Content = string(c.Ctx.Input.RequestBody)
+				//Form默认数据
+				m.Did = did
+				m.Mid = c.Mid
+				m.Parent = sj.Get("parent").MustInt()
+				m.Name = sj.Get("name").MustString()
+				m.Seq = sj.Get("seq").MustInt()
+				m.Status = int8(sj.Get("status").MustInt())
+				m.UpdateTime = time.Now().Unix()
 
+				o := orm.NewOrm()
+				id, err := o.Update(&m)
+				if nil == err {
+					c.jsonResult(consts.JRCodeSucc, "ok", id)
+				}
+			}
+		}
+	}
+	c.jsonResult(consts.JRCodeFailed, "nil", 0)
 }
 
 func (c *DataController) DeleteDo() {
