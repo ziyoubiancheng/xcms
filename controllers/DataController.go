@@ -142,7 +142,12 @@ func (c *DataController) EditDo() {
 }
 
 func (c *DataController) DeleteDo() {
-
+	if did, err := c.GetInt("did"); err == nil {
+		num, _ := orm.NewOrm().Delete(&models.DataModel{Did: did})
+		c.jsonResult(consts.JRCodeSucc, "1", num)
+	} else {
+		c.jsonResult(consts.JRCodeFailed, "", 0)
+	}
 }
 
 func (c *DataController) initForm() {
