@@ -25,7 +25,7 @@ func (c *DataModel) TableName() string {
 	return TbNameData()
 }
 
-func DataList(mid, pageSize, page int) ([]*DataStruct, int64) {
+func DataList(mid, pageSize, page int) ([]map[string]interface{}, int64) {
 	if mid <= 0 {
 		return nil, 0
 	}
@@ -35,11 +35,18 @@ func DataList(mid, pageSize, page int) ([]*DataStruct, int64) {
 	total, _ := query.Count()
 	data := make([]*DataModel, 0)
 	query.OrderBy("parent", "-seq").Limit(pageSize, offset).All(&data)
-	dataEx := make([]*DataStruct, 0)
+	dataEx := make([]map[string]interface{}, 0)
 	for _, v := range data {
 		sj, err := simplejson.NewJson([]byte(v.Content))
 		if nil == err {
-			dataEx = append(dataEx, &DataStruct{*v, sj.MustMap()})
+			sj.Set("did", v.Did)
+			sj.Set("name", v.Name)
+			sj.Set("mid", v.Mid)
+			sj.Set("parent", v.Parent)
+			sj.Set("seq", v.Seq)
+			sj.Set("status", v.Status)
+			sj.Set("updatetime", v.UpdateTime)
+			dataEx = append(dataEx, sj.MustMap())
 		}
 	}
 

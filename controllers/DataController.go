@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	//	"fmt"
 	"strconv"
 	"time"
@@ -38,10 +39,15 @@ func (c *DataController) Index() {
 		for k, _ := range titlemap.MustMap() {
 			stype := titlemap.GetPath(k, "type").MustString()
 			if "object" != stype && "array" != stype {
-				title[k] = titlemap.GetPath(k, "title").MustString()
+				if len(titlemap.GetPath(k, "title").MustString()) > 0 {
+					title[k] = titlemap.GetPath(k, "title").MustString()
+				} else {
+					title[k] = k
+				}
 			}
 		}
 		c.Data["Title"] = title
+		fmt.Println(title)
 	}
 
 	c.LayoutSections = make(map[string]string)
