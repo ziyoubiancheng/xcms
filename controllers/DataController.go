@@ -71,7 +71,7 @@ func (c *DataController) List() {
 }
 
 func (c *DataController) Add() {
-	c.initForm()
+	c.initForm(0)
 
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["footerjs"] = "data/footerjs_add.html"
@@ -104,9 +104,12 @@ func (c *DataController) AddDo() {
 }
 
 func (c *DataController) Edit() {
-	c.initForm()
+	did, _ := c.GetInt("did")
+	if did > 0 {
+		c.Data["Did"] = did
+	}
+	c.initForm(did)
 
-	c.Data["Did"] = c.GetString("did")
 	c.LayoutSections = make(map[string]string)
 	c.LayoutSections["footerjs"] = "data/footerjs_edit.html"
 	c.setTpl("data/edit.html", "common/layout_jfedit.html")
@@ -150,13 +153,65 @@ func (c *DataController) DeleteDo() {
 	}
 }
 
-func (c *DataController) initForm() {
+func (c *DataController) initForm(did int) {
 	format := models.MenuFormatStruct(c.Mid)
 	if nil == format {
 		return
 	}
 	schemaMap := format.Get("schema")
 	formArray := format.Get("form")
+
+	//初始化schema数据
+	one := models.DataRead(did)
+	if nil != one {
+		for k, _ := range schemaMap.MustMap() {
+			switch schemaMap.GetPath(k, "type").MustString() {
+			case "string":
+				schemaMap.SetPath([]string{k, "default"}, one.Get(k).MustString())
+				break
+			case "integer":
+				schemaMap.SetPath([]string{k, "default"}, one.Get(k).MustInt())
+				break
+			case "boolean":
+				schemaMap.SetPath([]string{k, "default"}, one.Get(k).MustBool())
+				break
+			case "array":
+				schemaMap.SetPath([]string{k, "default"}, one.Get(k).MustArray())
+				break
+			case "object":
+				schemaMap.SetPath([]string{k, "default"}, one.Get(k).MustMap())
+				break
+			}
+		}
+	}
+
+	//添加通用Schema
+	schemaMap.SetPath([]string{"parent", "type"}, "integer")
+	schemaMap.SetPath([]string{"parent", "title"}, "上级数据")
+	if nil != one {
+		schemaMap.SetPath([]string{"parent", "default"}, one.Get("parent").MustInt())
+	}
+
+	schemaMap.SetPath([]string{"name", "type"}, "string")
+	schemaMap.SetPath([]string{"name", "title"}, "名称")
+	if nil != one {
+		schemaMap.SetPath([]string{"name", "default"}, one.Get("name").MustString())
+	}
+
+	schemaMap.SetPath([]string{"seq", "type"}, "integer")
+	schemaMap.SetPath([]string{"seq", "title"}, "排序(倒序)")
+	if nil != one {
+		schemaMap.SetPath([]string{"seq", "default"}, one.Get("seq").MustInt())
+	}
+
+	schemaMap.SetPath([]string{"status", "type"}, "integer")
+	schemaMap.SetPath([]string{"status", "title"}, "状态")
+	schemaMap.SetPath([]string{"status", "enum"}, []int{0, 1})
+	if nil != one {
+		schemaMap.SetPath([]string{"status", "default"}, one.Get("status").MustInt())
+	}
+
+	c.Data["Schema"] = schemaMap.MustMap()
 
 	//添加通用Form
 	fa := formArray.MustArray()
@@ -191,20 +246,4 @@ func (c *DataController) initForm() {
 		}
 		c.Data["Form"] = tmpArray
 	}
-
-	//添加通用Schema
-	schemaMap.SetPath([]string{"parent", "type"}, "integer")
-	schemaMap.SetPath([]string{"parent", "title"}, "上级数据")
-
-	schemaMap.SetPath([]string{"name", "type"}, "string")
-	schemaMap.SetPath([]string{"name", "title"}, "名称")
-
-	schemaMap.SetPath([]string{"seq", "type"}, "integer")
-	schemaMap.SetPath([]string{"seq", "title"}, "排序(倒序)")
-
-	schemaMap.SetPath([]string{"status", "type"}, "integer")
-	schemaMap.SetPath([]string{"status", "title"}, "状态")
-	schemaMap.SetPath([]string{"status", "enum"}, []int{0, 1})
-
-	c.Data["Schema"] = schemaMap.MustMap()
 }
