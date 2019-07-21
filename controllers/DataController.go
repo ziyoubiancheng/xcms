@@ -31,6 +31,7 @@ func (c *DataController) Prepare() {
 }
 
 func (c *DataController) Index() {
+	//返回解析后json对象
 	sj := models.MenuFormatStruct(c.Mid)
 	//fmt.Println(sj.Get("schema"))
 	if sj != nil {
